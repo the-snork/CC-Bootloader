@@ -83,15 +83,7 @@ void jump_to_user(void) {
       ljmp #USER_CODE_BASE
     __endasm;
     while (1) {}
-  } else {
-    #ifdef RFCAT
-    return; // need to run bootloader!
-    #else
-    // Oops, no payload. We're stuck now!
-    led_on();
-    while (1) {}
-    #endif
-  }
+  } 
 }
 
 #ifdef TIMER
@@ -177,7 +169,6 @@ uint8_t want_bootloader(void) {
     return 0;
   */
 
-  #ifdef RFCAT 
   // we use the unused I2S SFRs as semaphores.
   // this would be safe even if I2S is in use as they should be reconfigured by 
   // user code 
@@ -185,9 +176,6 @@ uint8_t want_bootloader(void) {
     return 1;
   // no thanks
   return 0;
-  #else
-  return 1;
-  #endif
 }
 
 void bootloader_main (void)
@@ -196,7 +184,6 @@ void bootloader_main (void)
   uint8_t ihx_status;
   uint16_t read_start_addr, read_len;
 
-#ifdef RFCAT
   // use I2S SFR to signal that bootloader is present
   I2SCLKF0= 0xF0;
   I2SCLKF1= 0x0D;
@@ -216,14 +203,10 @@ void bootloader_main (void)
   if (CC1111YSONE_PIN_DC != GROUNDED && !want_bootloader())
   #endif
 
-#else
-  if (!want_bootloader())
-#endif
     jump_to_user();
-#ifdef RFCAT
+
   // reset semaphore 
   I2SCLKF2= 0x00;
-#endif
 
   clock_init();
   
