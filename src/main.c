@@ -26,7 +26,7 @@
 
 uint8_t bootloader_running = 1;
 
-void clock_init()
+void clock_init(void)
 {
 	// Switch system clock to crystal oscilator
 	CLKCON = (CLKCON & ~CLKCON_OSC_MASK) | (CLKCON_OSC_XTAL);
@@ -59,14 +59,14 @@ void delay (unsigned char n) {
 			  nop();
 }
 
-uint8_t check_for_payload() {
+uint8_t check_for_payload(void) {
   if (*((__xdata uint8_t*)USER_CODE_BASE) == 0xFF)
     return 0;
   else
     return 1;
 }
 
-void jump_to_user() {
+void jump_to_user(void) {
   // Disable all interrupts
   EA = 0;
   IEN0 = IEN1 = IEN2 = 0;
@@ -95,7 +95,7 @@ void jump_to_user() {
 }
 
 #ifdef TIMER
-void setup_timer1() {
+void setup_timer1(void) {
   // Clear Timer 1 channel 1 and overflow interrupt flag
   // CPU interrupt flag (IRCON) for Timer 1 is cleared automatically by hardware.
   T1CTL &= ~T1CTL_OVFIF;
@@ -112,14 +112,14 @@ void setup_timer1() {
 #endif
 
 #ifdef TIMER
-void disable_timer1() {
+void disable_timer1(oid) {
   // Disable Timer 1 interrupt
   IEN1 &= ~IEN1_T1IE;
 }
 #endif
 
 #ifdef TIMER
-void timer1_isr() __naked {
+void timer1_isr(void) __naked {
   T1CTL &= ~T1CTL_OVFIF;
   
   // We need to issue a RETI instruction to
@@ -145,7 +145,7 @@ void timer1_isr() __naked {
 }
 #endif
 
-void timer1_isr_forward() __naked {
+void timer1_isr_forward(void) __naked {
   #ifdef TIMER
   __asm
   	push acc
@@ -165,7 +165,7 @@ void timer1_isr_forward() __naked {
   #endif
 }
 
-uint8_t want_bootloader() {
+uint8_t want_bootloader(void) {
   // Check if we want to the bootloader to run
   // Here is the place to check for things like USB power and jump straight to
   // user code under some conditions.
@@ -190,7 +190,7 @@ uint8_t want_bootloader() {
   #endif
 }
 
-void bootloader_main ()
+void bootloader_main (void)
 {
   __xdata char buff[100];
   uint8_t ihx_status;

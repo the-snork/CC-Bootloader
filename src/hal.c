@@ -20,13 +20,13 @@
 #include "cc1111.h"
 #include "hal.h"
 
-void setup_led() {
+void setup_led(void) {
   // Setup LED and turn it off
   P1DIR |= LED_MASK;
   led_off();
 }
 
-void setup_button() {
+void setup_button(void) {
 #ifdef RFCAT_DONSDONGLE
   P1DIR &= ~4;
 #endif
@@ -39,7 +39,7 @@ void setup_button() {
 }
 
 // any other gpio pins
-void setup_gpio() {
+void setup_gpio(void) {
 #ifdef RFCAT_YARDSTICKONE
   // amplifer configuration pins
   //P0_0 input with pull-up (antenna port power off)
@@ -53,7 +53,7 @@ void setup_gpio() {
 #endif
 }
 
-void led_on() {
+void led_on(void) {
 #ifdef RFCAT_YARDSTICKONE
   LED1 = 1;
   LED2 = 1;
@@ -63,7 +63,7 @@ void led_on() {
 #endif
 }
 
-void led_off() {
+void led_off(void) {
 #ifdef RFCAT_YARDSTICKONE
   LED1 = 0;
   LED2 = 0;
@@ -73,13 +73,13 @@ void led_off() {
 #endif
 }
 
-void usb_up() {
+void usb_up(void) {
   // Bring up the USB link
   P1DIR |= USB_MASK;
   USB_ENABLE = 1;
 }
 
-void usb_down() {
+void usb_down(void) {
   // Bring down the USB link
   USB_ENABLE = 0;
   P1DIR &= ~USB_MASK;
