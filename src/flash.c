@@ -54,7 +54,7 @@ void flash_erase_page(uint8_t page) {
   //FCTL &=  ~FCTL_ERASE;
 }
 
-void flash_write_trigger() {
+void flash_write_trigger(void) {
   // Enable flash write. Generates a DMA trigger. Must be aligned on a 2-byte
   // boundary and is therefore implemented in assembly.
   
@@ -161,11 +161,11 @@ void flash_check_erase_and_write(uint16_t buff[], uint16_t len, uint16_t flash_a
   flash_write(buff, len, flash_addr);
 }
 
-void flash_reset() {
+void flash_reset(void) {
   erased_page_flags = 0;
 }
 
-void flash_erase_all_user() {
+void flash_erase_all_user(void) {
   // Erase all user flash pages
   uint8_t i;
   for (i=USER_FIRST_PAGE; i<FLASH_PAGES; i++)

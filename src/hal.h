@@ -49,14 +49,14 @@
   #define AMP_BYPASS_EN		P2_3
 #endif
 
-void setup_led();
-void led_on();
-void led_off();
-void setup_button();
-void setup_gpio();
+void setup_led(void);
+void led_on(void);
+void led_off(void);
+void setup_button(void);
+void setup_gpio(void);
 
-void usb_up();
-void usb_down();
+void usb_up(void);
+void usb_down(void);
 
 #define BUTTON_PRESSED  	0
 #define GROUNDED		0

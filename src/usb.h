@@ -25,12 +25,12 @@
 
 // External interface
 
-void usb_init();
-void usb_disable();
-void usb_enable();
-char usb_getchar();
+void usb_init(void);
+void usb_disable(void);
+void usb_enable(void);
+char usb_getchar(void);
 void usb_putchar(char c);
-void usb_flush();
+void usb_flush(void);
 
 void usb_putstr(char* buff);
 void usb_readline(char* buff);
@@ -38,7 +38,7 @@ void usb_readline(char* buff);
 // End external interface
 
 // USB interrupt handler
-void usb_isr() __interrupt 6;
+void usb_isr(void) __interrupt (6);
 
 #define USB_SETUP_DIR_MASK    (0x01 << 7)
 #define USB_SETUP_TYPE_MASK   (0x03 << 5)
